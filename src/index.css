@@ -5,8 +5,8 @@
 @layer base {
   :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --background: 0 0% 98%; /*#FBFBFB*/
+    --foreground: 0, 0%, 0%; /*#000000*/
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --popover: 0 0% 100%;
@@ -15,12 +15,12 @@
     --input: 214.3 31.8% 91.4%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --primary: 211, 99%, 50%; /*#017BFE  rgb(1,123,254) */
+    --primary-foreground: #000000;
+    --secondary: 158, 100%, 37%; /*rgb(0,192,122)*/
+    --secondary-foreground: #dee4e8;
+    --accent: 212, 100%, 90%;
+    --accent-foreground: 205, 87%, 18%;
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
     --ring: 215 20.2% 65.1%;
@@ -33,6 +33,10 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* fonts  */
+    --font-primary: "Poppins", Arial, sans-serif;
+    --font-secondary: "Roboto", Arial, sans-serif;
   }
 
   .dark {
@@ -68,7 +72,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-primary;
   }
   body {
     @apply bg-background text-foreground;
@@ -77,24 +81,31 @@
 
 /* sidebar styles  */
 .desktop-sidebar-menu-item {
-  @apply flex gap-[10px] p-[13px] h-[var(--height)] items-center relative;
+  @apply flex gap-[10px] pl-[13px] h-[var(--height)] items-center relative;
 }
 .desktop-sidebar-menu-item.active {
-  @apply text-black font-bold;
+  @apply text-primary font-medium;
 }
 .submenu {
   --height: 50px;
   position: relative;
+  overflow: hidden;
 }
 .submenu .line-indicator {
   width: 2px;
-  height: var(--height);
-  background-color: rgb(116, 15, 218);
+  background-color: var(--primary);
   display: block;
   opacity: 1;
-  transition: top 0.2s ease-in-out;
   position: absolute;
   left: 0;
+  top: 0;
+  height: 0;
+  overflow: hidden;
+  transition: top 0.2s ease-in-out;
+  opacity: 0;
+}
+.submenu.active .line-indicator {
+  opacity: 1;
 }
 
 /* CollapsibleContent Animation */

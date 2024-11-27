@@ -60,7 +60,7 @@ export const menus: MenuItemObject[] = [
     children: [
       {
         title: "Dashboard",
-        path: "/crm/dashboard",
+        path: "/crm/",
         icon: dashboard,
       },
     ],

@@ -17,7 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router";
 
 // desktop sidebar renderer component
@@ -44,25 +44,61 @@ export const SidebarTreeMenusView = ({
   menus: MenuItemObject[];
 }) => {
   // current location
-  const sidebarMenu = useRef<HTMLElement | undefined>();
-  const [top, setTop] = useState(0);
 
-  const navlinkClickHandler = (e) => {
-    e.preventDefault();
+  const sidebarMenuRef = useRef<HTMLElement | undefined>();
 
-    if (sidebarMenu?.current) {
-      const linkRect = e.currentTarget.getBoundingClientRect();
-      const menuRect = sidebarMenu.current.getBoundingClientRect();
-      const newTop = linkRect.top - menuRect.top;
-      console.log(newTop);
-      setTop(newTop);
+  // Run when the component mounts to apply indicator to the active menu item
+  useEffect(() => {
+    const activeLink = sidebarMenuRef.current?.querySelector(
+      `a[href="${location.pathname}"]`
+    );
+
+    if (activeLink) {
+      // Simulate the indicator logic on the active link
+      const parentEle = activeLink?.parentElement?.parentElement;
+      const submenus = sidebarMenuRef.current?.querySelectorAll("ul.submenu");
+
+      // Remove 'active' class from all submenus
+      submenus?.forEach((ele) => {
+        ele.classList.remove("active");
+      });
+
+      if (parentEle) {
+        const indicator = parentEle.querySelector(".line-indicator");
+        parentEle.classList.add("active");
+        if (indicator) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          indicator.style.cssText = `--top: ${activeLink.offsetTop}px; --indicator-height: ${activeLink.offsetHeight}px; top: var(--top); height: var(--indicator-height);`;
+        }
+      }
+    }
+  }, [location.pathname]);
+
+  const navlinkClickHandler = (e: React.El) => {
+    const activeEle = e.currentTarget;
+    const parentEle = activeEle?.parentElement?.parentElement;
+    const submenus = sidebarMenuRef.current?.querySelectorAll("ul.submenu");
+    console.log(submenus);
+
+    submenus?.forEach((ele) => {
+      ele.classList.remove("active");
+    });
+
+    if (parentEle) {
+      const indicator = parentEle.querySelector(".line-indicator");
+      parentEle.classList.add("active");
+      if (indicator) {
+        indicator.style.cssText = `--top: ${activeEle.offsetTop}px; --indicator-height: ${activeEle.offsetHeight}px; top: var(--top); height: var(--indicator-height); `;
+      }
     }
   };
+
   const renderMenuItems = (menuItems: MenuItemObject[], depth = 0) => {
     const RenderContent = ({ menu }: { menu: MenuItemObject }) =>
       menu?.children && menu?.children?.length > 0 ? (
         <Collapsible defaultOpen>
-          <SidebarGroup className={`${depth != 0 && "!p-0 "}`}>
+          <SidebarGroup className={`${depth != 0 && "!p-0 "} relative`}>
             <SidebarGroupLabel className="p-0">
               <CollapsibleTrigger
                 className={` flex w-full items-center gap-[10px]`}
@@ -84,18 +120,14 @@ export const SidebarTreeMenusView = ({
             </SidebarGroupLabel>
 
             <CollapsibleContent className="vertical-collapsible-content">
-              <SidebarGroupContent>
+              <SidebarGroupContent className="relative">
                 {menu.children && menu.children.length > 0 && (
-                  <SidebarMenuSub className="submenu  !relative !p-0">
-                    {renderMenuItems(menu.children, depth + 1)}
-                    {/* active indicator  */}
-                    <div
-                      style={{
-                        top: `${top}px`,
-                      }}
-                      className="line-indicator"
-                    ></div>
-                  </SidebarMenuSub>
+                  <>
+                    <SidebarMenuSub className="submenu  !relative !p-0">
+                      {renderMenuItems(menu.children, depth + 1)}
+                      <div className="line-indicator"></div>
+                    </SidebarMenuSub>
+                  </>
                 )}
               </SidebarGroupContent>
             </CollapsibleContent>
@@ -122,14 +154,16 @@ export const SidebarTreeMenusView = ({
           <RenderContent menu={menu} />
         </SidebarMenuItem>
       ) : (
-        <SidebarMenuSubItem key={i} className="submenu-item !text-[16px]">
+        <SidebarMenuSubItem key={i} className="submenu-item !text-base">
           <RenderContent menu={menu} />
         </SidebarMenuSubItem>
       )
     );
   };
   return (
-    <SidebarMenu ref={sidebarMenu} className="sidebar-menu">
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    <SidebarMenu ref={sidebarMenuRef} className="sidebar-menu">
       {renderMenuItems(menus)}
     </SidebarMenu>
   );
