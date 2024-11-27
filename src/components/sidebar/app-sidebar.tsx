@@ -110,7 +110,7 @@ export const SidebarTreeMenusView = ({
                     className="ml-[13px]"
                   />
                 )}
-                <span className={`${depth != 0 && "!p-0 !text-[16px]"}`}>
+                <span className={`${depth != 0 && "!p-0 !text-base"}`}>
                   {menu.title}
                 </span>
                 <div className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">

@@ -53,15 +53,35 @@ export const menus: MenuItemObject[] = [
     ],
   },
   {
-    title: "HRM",
-    path: "/hrm",
+    title: "SMS Camp.",
+    path: "/sms",
     icon: null,
     isRoot: true,
     children: [
       {
         title: "Dashboard",
-        path: "/crm/",
+        path: "/sms/dashboard",
         icon: dashboard,
+      },
+      {
+        title: "SMS Campaign",
+        path: "/sms/sms-campaign",
+        icon: null,
+      },
+      {
+        title: "SMS Automation",
+        path: "/sms/sms-automation",
+        icon: null,
+      },
+      {
+        title: "SMS Template",
+        path: "/sms/sms-template",
+        icon: null,
+      },
+      {
+        title: "Integrations",
+        path: "/sms/integrations",
+        icon: null,
       },
     ],
   },
