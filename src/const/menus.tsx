@@ -4,6 +4,10 @@ import forms from "/src/assets/icons/forms.svg";
 import leadManager from "/src/assets/icons/lead-managers.svg";
 import leads from "/src/assets/icons/leads.svg";
 import message_templates from "/src/assets/icons/message-template.svg";
+import sms_automation from "/src/assets/icons/sms-automation.svg";
+import sms_campaign from "/src/assets/icons/sms-campaign.svg";
+import sms_integrations from "/src/assets/icons/sms-integrations.svg";
+import sms_template from "/src/assets/icons/sms-template.svg";
 
 export type MenuItemObject = {
   title: string;
@@ -66,22 +70,22 @@ export const menus: MenuItemObject[] = [
       {
         title: "SMS Campaign",
         path: "/sms/sms-campaign",
-        icon: null,
+        icon: sms_campaign,
       },
       {
         title: "SMS Automation",
         path: "/sms/sms-automation",
-        icon: null,
+        icon: sms_automation,
       },
       {
         title: "SMS Template",
         path: "/sms/sms-template",
-        icon: null,
+        icon: sms_template,
       },
       {
         title: "Integrations",
         path: "/sms/integrations",
-        icon: null,
+        icon: sms_integrations,
       },
     ],
   },
