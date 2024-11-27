@@ -17,7 +17,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
+import { useRef, useState } from "react";
 import { NavLink } from "react-router";
+
+// desktop sidebar renderer component
 
 export function AppSidebar() {
   return (
@@ -40,25 +43,58 @@ export const SidebarTreeMenusView = ({
 }: {
   menus: MenuItemObject[];
 }) => {
+  // current location
+  const sidebarMenu = useRef<HTMLElement | undefined>();
+  const [top, setTop] = useState(0);
+
+  const navlinkClickHandler = (e) => {
+    e.preventDefault();
+
+    if (sidebarMenu?.current) {
+      const linkRect = e.currentTarget.getBoundingClientRect();
+      const menuRect = sidebarMenu.current.getBoundingClientRect();
+      const newTop = linkRect.top - menuRect.top;
+      console.log(newTop);
+      setTop(newTop);
+    }
+  };
   const renderMenuItems = (menuItems: MenuItemObject[], depth = 0) => {
     const RenderContent = ({ menu }: { menu: MenuItemObject }) =>
       menu?.children && menu?.children?.length > 0 ? (
         <Collapsible defaultOpen>
-          <SidebarGroup className={`${depth != 0 && "!p-0"}`}>
+          <SidebarGroup className={`${depth != 0 && "!p-0 "}`}>
             <SidebarGroupLabel className="p-0">
-              <CollapsibleTrigger className="flex w-full">
-                <span>{menu.title}</span>
+              <CollapsibleTrigger
+                className={` flex w-full items-center gap-[10px]`}
+              >
+                {depth != 0 && menu?.icon && (
+                  <Icon
+                    src={menu?.icon}
+                    alt={menu?.title}
+                    className="ml-[13px]"
+                  />
+                )}
+                <span className={`${depth != 0 && "!p-0 !text-[16px]"}`}>
+                  {menu.title}
+                </span>
                 <div className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">
                   <Icon src={plus} width={14} height={14} />
                 </div>
               </CollapsibleTrigger>
             </SidebarGroupLabel>
 
-            <CollapsibleContent>
+            <CollapsibleContent className="vertical-collapsible-content">
               <SidebarGroupContent>
                 {menu.children && menu.children.length > 0 && (
-                  <SidebarMenuSub className="submenu !p-0">
+                  <SidebarMenuSub className="submenu  !relative !p-0">
                     {renderMenuItems(menu.children, depth + 1)}
+                    {/* active indicator  */}
+                    <div
+                      style={{
+                        top: `${top}px`,
+                      }}
+                      className="line-indicator"
+                    ></div>
                   </SidebarMenuSub>
                 )}
               </SidebarGroupContent>
@@ -71,15 +107,10 @@ export const SidebarTreeMenusView = ({
         </SidebarGroup>
       ) : (
         <NavLink
+          onClick={navlinkClickHandler}
           to={menu?.path}
-          className={({ isActive }) =>
-            isActive
-              ? "text-black font-semibold border-l-2 border-l-[#017BFE] flex gap-[10px] p-[13px]"
-              : "flex gap-[10px] p-[13px]"
-          }
+          className="desktop-sidebar-menu-item"
         >
-          {/* className="flex px-[13px] py-[24px] gap-[10px] border-l-2 border-l-emerald-500" */}
-
           {menu?.icon && <Icon src={menu?.icon} alt={menu?.title} />}
           <span>{menu?.title}</span>
         </NavLink>
@@ -91,13 +122,15 @@ export const SidebarTreeMenusView = ({
           <RenderContent menu={menu} />
         </SidebarMenuItem>
       ) : (
-        <SidebarMenuSubItem className="submenu-item">
+        <SidebarMenuSubItem key={i} className="submenu-item !text-[16px]">
           <RenderContent menu={menu} />
         </SidebarMenuSubItem>
       )
     );
   };
   return (
-    <SidebarMenu className="sidebar-menu">{renderMenuItems(menus)}</SidebarMenu>
+    <SidebarMenu ref={sidebarMenu} className="sidebar-menu">
+      {renderMenuItems(menus)}
+    </SidebarMenu>
   );
 };

@@ -74,3 +74,49 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* sidebar styles  */
+.desktop-sidebar-menu-item {
+  @apply flex gap-[10px] p-[13px] h-[var(--height)] items-center relative;
+}
+.desktop-sidebar-menu-item.active {
+  @apply text-black font-bold;
+}
+.submenu {
+  --height: 50px;
+  position: relative;
+}
+.submenu .line-indicator {
+  width: 2px;
+  height: var(--height);
+  background-color: rgb(116, 15, 218);
+  display: block;
+  opacity: 1;
+  transition: top 0.2s ease-in-out;
+  position: absolute;
+  left: 0;
+}
+
+/* CollapsibleContent Animation */
+.vertical-collapsible-content {
+  overflow: hidden;
+}
+.vertical-collapsible-content[data-state="open"] {
+  animation: slideDown 300ms ease-out;
+}
+.vertical-collapsible-content[data-state="closed"] {
+  animation: slideUp 300ms ease-out;
+  height: var(--radix-collapsible-content-height);
+}
+
+@keyframes slideDown {
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+}
+
+@keyframes slideUp {
+  to {
+    height: 0;
+  }
+}

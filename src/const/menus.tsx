@@ -3,6 +3,7 @@ import dashboard from "/src/assets/icons/dashboard.svg";
 import forms from "/src/assets/icons/forms.svg";
 import leadManager from "/src/assets/icons/lead-managers.svg";
 import leads from "/src/assets/icons/leads.svg";
+import message_templates from "/src/assets/icons/message-template.svg";
 
 export type MenuItemObject = {
   title: string;
@@ -43,13 +44,11 @@ export const menus: MenuItemObject[] = [
         title: "Forms",
         path: "/crm/forms",
         icon: forms,
-        isRoot: true,
-        children: [
-          {
-            title: "Form 1",
-            path: "/crm/forms/form-1",
-          },
-        ],
+      },
+      {
+        title: "Massage Templates",
+        path: "/crm/message-templates",
+        icon: message_templates,
       },
     ],
   },
