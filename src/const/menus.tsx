@@ -15,6 +15,7 @@ export type MenuItemObject = {
   icon?: string | null;
   isRoot?: boolean;
   children?: MenuItemObject[];
+  key?: number;
 };
 
 export const menus: MenuItemObject[] = [

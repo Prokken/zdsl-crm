@@ -102,14 +102,12 @@
   left: 0;
   width: 3px;
   background-color: blue;
-  transition: top 0.3s ease, height 0.3s ease;
-  top: 0;
   height: 0;
+  top: 0;
+  opacity: 0;
+  transition: top 0.38s ease-in-out, opacity 0.5s ease-in-out;
 }
-.submenu[data-active="active"] .line-indicator {
-  top: var(--top);
-  height: var(--indicator-height);
-}
+
 /* CollapsibleContent Animation */
 .vertical-collapsible-content {
   overflow: hidden;
