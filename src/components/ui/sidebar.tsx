@@ -14,7 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsTablet } from "@/hooks/use-tablet";
 import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
@@ -30,7 +30,10 @@ type SidebarContext = {
   setOpen: (open: boolean) => void;
   openMobile: boolean;
   setOpenMobile: (open: boolean) => void;
+  setOpenTablet: (open: boolean) => void;
   isMobile: boolean;
+  isTablet: boolean;
+  openTablet: boolean;
   toggleSidebar: () => void;
 };
 
@@ -65,8 +68,11 @@ const SidebarProvider = React.forwardRef<
     },
     ref
   ) => {
-    const isMobile = useIsMobile();
+    // const isMobile = useIsMobile();
+    const isTablet = useIsTablet();
+    const isMobile = false;
     const [openMobile, setOpenMobile] = React.useState(false);
+    const [openTablet, setOpenTablet] = React.useState(false);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -89,10 +95,12 @@ const SidebarProvider = React.forwardRef<
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
-      return isMobile
+      return isTablet
+        ? setOpenTablet((open) => !open)
+        : isMobile
         ? setOpenMobile((open) => !open)
         : setOpen((open) => !open);
-    }, [isMobile, setOpen, setOpenMobile]);
+    }, [isTablet, setOpen, setOpenMobile, isMobile]);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -120,11 +128,24 @@ const SidebarProvider = React.forwardRef<
         open,
         setOpen,
         isMobile,
+        isTablet,
+        openTablet,
+        openMobile,
+        setOpenMobile,
+        setOpenTablet,
+        toggleSidebar,
+      }),
+      [
+        state,
+        open,
+        setOpen,
+        isMobile,
         openMobile,
         setOpenMobile,
         toggleSidebar,
-      }),
-      [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
+        isTablet,
+        openTablet,
+      ]
     );
 
     return (
@@ -173,7 +194,15 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+    const {
+      // isMobile,
+      state,
+      openMobile,
+      // setOpenMobile,
+      isTablet,
+      // openTablet,
+      setOpenTablet,
+    } = useSidebar();
 
     if (collapsible === "none") {
       return (
@@ -190,9 +219,9 @@ const Sidebar = React.forwardRef<
       );
     }
 
-    if (isMobile) {
+    if (isTablet) {
       return (
-        <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+        <Sheet open={openMobile} onOpenChange={setOpenTablet} {...props}>
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"

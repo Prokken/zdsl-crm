@@ -15,10 +15,9 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router";
 import Logo from "../logo/logo";
-
 // desktop sidebar renderer component
 
 export function AppSidebar() {
@@ -48,17 +47,22 @@ export const SidebarTreeMenusView = ({
   //  current location
   const location = useLocation();
   const sidebarMenuRef = useRef<HTMLElement | undefined>();
-  const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
 
   useEffect(() => {
-    const activeLink = document.querySelector(`.submenu li a.active`);
-    const lineIndicator = document.querySelector(".line-indicator");
+    const updateIndicatorPosition = () => {
+      document.querySelectorAll(".submenu").forEach((submenu) => {
+        const activeLink = submenu.querySelector("li a.active");
+        const lineIndicator = submenu.querySelector(".line-indicator");
+        if (activeLink && lineIndicator) {
+          const { offsetTop, offsetHeight } = activeLink as HTMLElement;
+          submenu.setAttribute("data-active", `active`);
+          submenu.style.setProperty("--top", `${offsetTop}px`);
+          submenu.style.setProperty("--indicator-height", `${offsetHeight}px`);
+        }
+      });
+    };
 
-    if (activeLink && lineIndicator) {
-      const { offsetTop, offsetHeight } = activeLink;
-      lineIndicator.style.top = `${offsetTop}px`;
-      lineIndicator.style.height = `${offsetHeight}px`;
-    }
+    updateIndicatorPosition();
   }, [location.pathname]);
 
   const renderMenuItems = (menuItems: MenuItemObject[], depth = 0) => {
@@ -84,6 +88,7 @@ export const SidebarTreeMenusView = ({
               <>
                 <SidebarMenuSub className="submenu  !relative !m-0 !p-0">
                   {renderMenuItems(menu.children, depth + 1)}
+
                   <div className="line-indicator"></div>
                 </SidebarMenuSub>
               </>
