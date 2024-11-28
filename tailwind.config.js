@@ -14,6 +14,7 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -22,6 +23,12 @@ module.exports = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        "primary-hover": {
+          DEFAULT: "hsl(var(--hover))",
+          background: "hsl(var(--hover-of-primary))",
+          foreground: "hsl(var(--hover-of-primary-foreground))",
+        },
+
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -33,6 +40,11 @@ module.exports = {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+        },
+        "accent-hover": {
+          DEFAULT: "hsl(var(--hover))",
+          background: "hsl(var(--hover-of-accent))",
+          foreground: "hsl(var( --hover-of-accent-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -62,6 +74,10 @@ module.exports = {
         primary: "var(--font-primary)",
         secondary: "var(--font-secondary)",
       },
+      boxShadow: {
+        DEFAULT: "var(--shadow)",
+        xxl: "var(--shadow-xxl)",
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

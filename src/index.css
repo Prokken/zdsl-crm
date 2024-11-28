@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+@layer {
   :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     --background: 0 0% 98%; /*#FBFBFB*/
@@ -11,29 +11,35 @@
     --muted-foreground: 215.4 16.3% 46.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
-    --border: 214.3 31.8% 91.4%;
+    --border: 204, 18%, 89%; /*#DEE4E8*/
     --input: 214.3 31.8% 91.4%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
     --primary: 211, 99%, 50%; /*#017BFE  rgb(1,123,254) */
-    --primary-foreground: #000000;
+    --primary-foreground: 0, 0%, 0%; /*#000000*/
+    --hover: 0 0% 100%;
+    --hover-of-primary: 211, 99%, 50%, 0.829;
+    --hover-of-foreground: 0, 0%, 0%;
     --secondary: 158, 100%, 37%; /*rgb(0,192,122)*/
-    --secondary-foreground: #dee4e8;
+    --secondary-foreground: 205, 18%, 58%; /*#8198A8*/
     --accent: 212, 100%, 90%;
+    --hover-of-accent: 212, 100%, 90%, 0.877;
     --accent-foreground: 205, 87%, 18%;
+    --hover-of-accent-foreground: 205, 87%, 18%, 0.89;
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
     --ring: 215 20.2% 65.1%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
+    /* border radius  */
+    --radius: 0.631rem;
+    --sidebar-background: 0, 0%, 98%; /*#FBFBFB*/
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-primary: 204, 18%, 89%;
+    --sidebar-primary-foreground: 0, 0%, 0%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-
+    --shadow-xxl: 0px 5px 20px #0000003d;
     /* fonts  */
     --font-primary: "Poppins", Arial, sans-serif;
     --font-secondary: "Roboto", Arial, sans-serif;
@@ -89,22 +95,17 @@
 .submenu {
   --height: 50px;
   position: relative;
-  overflow: hidden;
 }
-.submenu .line-indicator {
-  width: 2px;
-  background-color: var(--primary);
-  display: block;
-  opacity: 1;
+
+.line-indicator {
+  width: 3px;
+  background-color: hsl(var(--primary));
   position: absolute;
-  left: 0;
+  left: -2px;
   top: 0;
   height: 0;
-  overflow: hidden;
-  transition: top 0.2s ease-in-out;
-  opacity: 0;
-}
-.submenu.active .line-indicator {
+  transition: top 0.2s ease-in-out, height 0.2s ease-in-out;
+  border-radius: calc(var(--radius) + 2px);
   opacity: 1;
 }
 
@@ -130,4 +131,9 @@
   to {
     height: 0;
   }
+}
+
+/* disable forward button  */
+.forward-btn:disabled svg path {
+  fill: hsl(var(--secondary-foreground)) !important;
 }

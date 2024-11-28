@@ -2,9 +2,7 @@ import plus from "@/assets/icons/plus.svg";
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -17,14 +15,18 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
-import { useEffect, useRef } from "react";
-import { NavLink } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, useLocation } from "react-router";
+import Logo from "../logo/logo";
 
 // desktop sidebar renderer component
 
 export function AppSidebar() {
   return (
-    <Sidebar className="sidebar">
+    <Sidebar className="sidebar px-[1.35rem] py-[0.85rem]">
+      <SidebarHeader className="!mx-0 mb-[1.5rem] !px-0 !p-0">
+        <Logo />
+      </SidebarHeader>
       <SidebarContent>
         <SidebarTreeMenusView menus={menus} />
       </SidebarContent>
@@ -43,106 +45,54 @@ export const SidebarTreeMenusView = ({
 }: {
   menus: MenuItemObject[];
 }) => {
-  // current location
-
+  //  current location
+  const location = useLocation();
   const sidebarMenuRef = useRef<HTMLElement | undefined>();
+  const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
 
-  // Run when the component mounts to apply indicator to the active menu item
   useEffect(() => {
-    const activeLink = sidebarMenuRef.current?.querySelector(
-      `a[href="${location.pathname}"]`
-    );
+    const activeLink = document.querySelector(`.submenu li a.active`);
+    const lineIndicator = document.querySelector(".line-indicator");
 
-    if (activeLink) {
-      // Simulate the indicator logic on the active link
-      const parentEle = activeLink?.parentElement?.parentElement;
-      const submenus = sidebarMenuRef.current?.querySelectorAll("ul.submenu");
-
-      // Remove 'active' class from all submenus
-      submenus?.forEach((ele) => {
-        ele.classList.remove("active");
-      });
-
-      if (parentEle) {
-        const indicator = parentEle.querySelector(".line-indicator");
-        parentEle.classList.add("active");
-        if (indicator) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          indicator.style.cssText = `--top: ${activeLink.offsetTop}px; --indicator-height: ${activeLink.offsetHeight}px; top: var(--top); height: var(--indicator-height);`;
-        }
-      }
+    if (activeLink && lineIndicator) {
+      const { offsetTop, offsetHeight } = activeLink;
+      lineIndicator.style.top = `${offsetTop}px`;
+      lineIndicator.style.height = `${offsetHeight}px`;
     }
   }, [location.pathname]);
-
-  const navlinkClickHandler = (e: React.El) => {
-    const activeEle = e.currentTarget;
-    const parentEle = activeEle?.parentElement?.parentElement;
-    const submenus = sidebarMenuRef.current?.querySelectorAll("ul.submenu");
-    console.log(submenus);
-
-    submenus?.forEach((ele) => {
-      ele.classList.remove("active");
-    });
-
-    if (parentEle) {
-      const indicator = parentEle.querySelector(".line-indicator");
-      parentEle.classList.add("active");
-      if (indicator) {
-        indicator.style.cssText = `--top: ${activeEle.offsetTop}px; --indicator-height: ${activeEle.offsetHeight}px; top: var(--top); height: var(--indicator-height); `;
-      }
-    }
-  };
 
   const renderMenuItems = (menuItems: MenuItemObject[], depth = 0) => {
     const RenderContent = ({ menu }: { menu: MenuItemObject }) =>
       menu?.children && menu?.children?.length > 0 ? (
         <Collapsible defaultOpen>
-          <SidebarGroup className={`${depth != 0 && "!p-0 "} relative`}>
-            <SidebarGroupLabel className="p-0">
-              <CollapsibleTrigger
-                className={` flex w-full items-center gap-[10px]`}
-              >
-                {depth != 0 && menu?.icon && (
-                  <Icon
-                    src={menu?.icon}
-                    alt={menu?.title}
-                    className="ml-[13px]"
-                  />
-                )}
-                <span className={`${depth != 0 && "!p-0 !text-[16px]"}`}>
-                  {menu.title}
-                </span>
-                <div className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">
-                  <Icon src={plus} width={14} height={14} />
-                </div>
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-
-            <CollapsibleContent className="vertical-collapsible-content">
-              <SidebarGroupContent className="relative">
-                {menu.children && menu.children.length > 0 && (
-                  <>
-                    <SidebarMenuSub className="submenu  !relative !p-0">
-                      {renderMenuItems(menu.children, depth + 1)}
-                      <div className="line-indicator"></div>
-                    </SidebarMenuSub>
-                  </>
-                )}
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </SidebarGroup>
+          <CollapsibleTrigger
+            className={` !text-base !font-primary !text-secondary-foreground flex w-full items-center gap-[10px] py-[0.875rem]`}
+          >
+            {depth != 0 && menu?.icon && (
+              <Icon src={menu?.icon} alt={menu?.title} className="ml-[13px]" />
+            )}
+            <span className={`${depth != 0 && "!p-0 !text-[16px]"}`}>
+              {menu.title}
+            </span>
+            <div className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">
+              <Icon src={plus} width={14} height={14} />
+            </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="vertical-collapsible-content relative">
+            {menu.children && menu.children.length > 0 && (
+              <>
+                <SidebarMenuSub className="submenu  !relative !p-0 !border-l-2 !m-0">
+                  {renderMenuItems(menu.children, depth + 1)}
+                  <div style={indicatorStyle} className="line-indicator"></div>
+                </SidebarMenuSub>
+              </>
+            )}
+          </CollapsibleContent>
         </Collapsible>
       ) : depth === 0 ? (
-        <SidebarGroup>
-          <SidebarGroupLabel>{menu.title}</SidebarGroupLabel>
-        </SidebarGroup>
+        <span>{menu.title}</span>
       ) : (
-        <NavLink
-          onClick={navlinkClickHandler}
-          to={menu?.path}
-          className="desktop-sidebar-menu-item"
-        >
+        <NavLink to={menu?.path} className="desktop-sidebar-menu-item">
           {menu?.icon && <Icon src={menu?.icon} alt={menu?.title} />}
           <span>{menu?.title}</span>
         </NavLink>
@@ -163,7 +113,7 @@ export const SidebarTreeMenusView = ({
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    <SidebarMenu ref={sidebarMenuRef} className="sidebar-menu">
+    <SidebarMenu ref={sidebarMenuRef} className="sidebar-menu  py-[0.875px]">
       {renderMenuItems(menus)}
     </SidebarMenu>
   );
