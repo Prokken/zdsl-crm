@@ -66,24 +66,25 @@ export const SidebarTreeMenusView = ({
       menu?.children && menu?.children?.length > 0 ? (
         <Collapsible defaultOpen>
           <CollapsibleTrigger
-            className={` !text-base !font-primary !text-secondary-foreground flex w-full items-center gap-[10px] py-[0.875rem]`}
+            className={` flex w-full items-center gap-[10px] py-3`}
           >
             {depth != 0 && menu?.icon && (
               <Icon src={menu?.icon} alt={menu?.title} className="ml-[13px]" />
             )}
-            <span className={`${depth != 0 && "!p-0 !text-[16px]"}`}>
+            <span className={`${depth != 0 && "!p-0 !text-base"}`}>
               {menu.title}
             </span>
             <div className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">
               <Icon src={plus} width={14} height={14} />
             </div>
           </CollapsibleTrigger>
-          <CollapsibleContent className="vertical-collapsible-content relative">
+
+          <CollapsibleContent className="vertical-collapsible-content ">
             {menu.children && menu.children.length > 0 && (
               <>
-                <SidebarMenuSub className="submenu  !relative !p-0 !border-l-2 !m-0">
+                <SidebarMenuSub className="submenu  !relative !m-0 !p-0">
                   {renderMenuItems(menu.children, depth + 1)}
-                  <div style={indicatorStyle} className="line-indicator"></div>
+                  <div className="line-indicator"></div>
                 </SidebarMenuSub>
               </>
             )}
