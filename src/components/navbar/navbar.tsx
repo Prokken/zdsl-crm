@@ -9,7 +9,7 @@ function Navbar() {
   return (
     <div className=" px-5 py-[22px] border-b-2 border-border w-full ">
       {/* wrapper  */}
-      <div className="flex  justify-between w-full items-center">
+      <div className="flex gap-6  justify-between w-full items-center">
         {/* left  */}
         <div className="flex gap-4 items-center">
           <NextBackButton />
