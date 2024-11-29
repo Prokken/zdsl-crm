@@ -7,9 +7,9 @@ import Todo from "../todo/todo";
 import { Button } from "../ui/button";
 function Navbar() {
   return (
-    <div className=" px-5 py-[22px] border-b-2 border-border w-full ">
+    <div className=" px-5 py-[22px] w-full h-[var(--nav-height)]  flex flex-col justify-center container">
       {/* wrapper  */}
-      <div className="flex gap-6  justify-between w-full items-center">
+      <div className="flex gap-6  justify-between w-full items-center ">
         {/* left  */}
         <div className="flex gap-4 items-center">
           <NextBackButton />

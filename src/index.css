@@ -43,6 +43,9 @@
     /* fonts  */
     --font-primary: "Poppins", Arial, sans-serif;
     --font-secondary: "Roboto", Arial, sans-serif;
+
+    /* nav height  */
+    --nav-height: 4.379rem;
   }
 
   .dark {
@@ -82,6 +85,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .container {
+    @apply 2xl:max-w-full 2xl:px-10 max-w-[1560px] mx-auto px-3 lg:px-0;
   }
 }
 
