@@ -1,5 +1,5 @@
 import DataTable from "@/components/DataTable/dataTable";
-import { ColumnData } from "@/components/DataTable/tableTypes";
+
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
@@ -110,13 +110,13 @@ const readyDataForColumn: (
       return isSort ? (
         <Button
           variant="ghost"
-          className="text-sm font-primary hover:bg-transparent capitalize"
+          className="text-sm !text-start !p-0 m-0! font-primary hover:bg-transparent capitalize"
           onClick={() => {
             return column.toggleSorting(column.getIsSorted() === "asc");
           }}
         >
           {field.header}
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className="ml-0 h-4 w-4" />
         </Button>
       ) : (
         <span className="text-sm"> {field.header}</span>
@@ -124,9 +124,9 @@ const readyDataForColumn: (
     },
     cell: ({ row }) =>
       field.accessorKey == "job_title" ? (
-        <span>Sales Manager</span>
+        <span className="text-sm">Sales Manager</span>
       ) : (
-        <span className="text-base">{row.getValue(field.accessorKey)}</span>
+        <span className={`text-sm`}>{row.getValue(field.accessorKey)}</span>
       ),
   }));
 

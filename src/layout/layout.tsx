@@ -7,11 +7,11 @@ export default function Layout() {
     <div>
       <SidebarProvider>
         <AppSidebar />
-        <main className="w-full  relative">
-          <div>
+        <main className="w-full  relative overflow-hidden">
+          <div className="border-b-2 border-border ">
             <Navbar />
           </div>
-          <div className="px-5 pt-4">
+          <div className="container pt-4 ">
             <Outlet />
           </div>
         </main>

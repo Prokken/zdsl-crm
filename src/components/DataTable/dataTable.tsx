@@ -15,16 +15,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  className?: string;
 }
 
 function DataTable<TData, TValue>({
   columns,
   data,
+  className,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
@@ -39,17 +42,24 @@ function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="overflow-hidden">
-      <div className="border-[1px] rounded-sm mt-2 overflow-hidden max-w-[100%]">
-        <Table className="overflow-x-auto">
-          <TableHeader>
+    <div className="border-0  flex flex-col h-[calc(100vh-var(--nav-height))]  rounded-sm">
+      <div className={cn("flex-1   overflow-auto rounded-sm ", className)}>
+        <Table className="bg-white">
+          <TableHeader className="sticky -top-2 bg-white z-20 duration-200">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  console.log("header id", header.id);
+
                   return (
                     <TableHead
                       key={header.id}
-                      className="border  whitespace-nowrap"
+                      className={`border !px-3 whitespace-nowrap ${
+                        header.id === "select" && "sticky left-[-1px] bg-white "
+                      }  ${
+                        header.id === "action" &&
+                        "sticky right-[-1px] bg-white z-20  after:content-[''] after:w-[calc(100%+1px) after:absolute after:bg-red-400 after:h-full after:block after:top-0 after:lef-0 after:z-50 ]"
+                      }`}
                     >
                       {header?.isPlaceholder
                         ? null
@@ -66,23 +76,28 @@ function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
-                // console.log(row);
                 return (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className="border !px-2 whitespace-nowrap "
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
+                    {row.getVisibleCells().map((cell) => {
+                      console.log(cell.column.id);
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className={`border !px-3 whitespace-nowrap text-sm ${
+                            cell.column.id === "select" &&
+                            "sticky left-[-1px] bg-white z-10 duration-150  "
+                          }`}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 );
               })
@@ -93,9 +108,9 @@ function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-
-        <div>page</div>
       </div>
+
+      <div className=" flex-0 h-[70px]">page</div>
     </div>
   );
 }
