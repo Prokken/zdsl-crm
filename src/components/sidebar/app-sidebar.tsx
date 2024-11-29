@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/sidebar";
 import { MenuItemObject, menus } from "@/const/menus";
 import { Icon } from "@/lib/ui/Icon";
+import { cn } from "@/lib/utils";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router";
 import Logo from "../logo/logo";
-
 // desktop sidebar renderer component
 
 export function AppSidebar() {
@@ -46,20 +46,6 @@ export const SidebarTreeMenusView = ({
   menus: MenuItemObject[];
 }) => {
   //  current location
-  const location = useLocation();
-  const sidebarMenuRef = useRef<HTMLElement | undefined>();
-  const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
-
-  useEffect(() => {
-    const activeLink = document.querySelector(`.submenu li a.active`);
-    const lineIndicator = document.querySelector(".line-indicator");
-
-    if (activeLink && lineIndicator) {
-      const { offsetTop, offsetHeight } = activeLink;
-      lineIndicator.style.top = `${offsetTop}px`;
-      lineIndicator.style.height = `${offsetHeight}px`;
-    }
-  }, [location.pathname]);
 
   const renderMenuItems = (menuItems: MenuItemObject[], depth = 0) => {
     const RenderContent = ({ menu }: { menu: MenuItemObject }) =>
@@ -74,6 +60,7 @@ export const SidebarTreeMenusView = ({
             <span className={`${depth != 0 && "!p-0 !text-base"}`}>
               {menu.title}
             </span>
+
             <div className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">
               <Icon src={plus} width={14} height={14} />
             </div>
@@ -84,7 +71,7 @@ export const SidebarTreeMenusView = ({
               <>
                 <SidebarMenuSub className="submenu  !relative !m-0 !p-0">
                   {renderMenuItems(menu.children, depth + 1)}
-                  <div className="line-indicator"></div>
+                  <MenuIndicator indicatorId={menu?.key || 0} />
                 </SidebarMenuSub>
               </>
             )}
@@ -102,20 +89,62 @@ export const SidebarTreeMenusView = ({
     return menuItems.map((menu, i) =>
       depth == 0 ? (
         <SidebarMenuItem key={i}>
-          <RenderContent menu={menu} />
+          <RenderContent menu={{ ...menu, key: i }} />
         </SidebarMenuItem>
       ) : (
         <SidebarMenuSubItem key={i} className="submenu-item !text-base">
-          <RenderContent menu={menu} />
+          <RenderContent menu={{ ...menu, key: i }} />
         </SidebarMenuSubItem>
       )
     );
   };
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    <SidebarMenu ref={sidebarMenuRef} className="sidebar-menu  py-[0.875px]">
+    <SidebarMenu className="sidebar-menu  py-[0.875px]">
       {renderMenuItems(menus)}
     </SidebarMenu>
   );
 };
+
+const MenuIndicator = memo(
+  ({ indicatorId }: { indicatorId: string | number }) => {
+    const location = useLocation();
+
+    const calculateIndicator = () => {
+      document.querySelectorAll(".submenu").forEach((submenu) => {
+        const activeLink = submenu.querySelector("li a.active");
+        if (activeLink) {
+          const indicator = submenu.querySelector(`.line-indicator`);
+          const activeIndicator = document.querySelector(
+            ".line-indicator.active"
+          );
+          if (activeIndicator) {
+            activeIndicator.classList.remove("active");
+            activeIndicator.removeAttribute("style");
+          }
+          if (indicator) {
+            const { offsetTop, offsetHeight } = activeLink as HTMLElement;
+            (
+              indicator as HTMLElement
+            ).style.cssText = `top: ${offsetTop}px; height: ${offsetHeight}px; opacity: 1;`;
+            indicator.classList.add("active");
+          }
+        }
+      });
+    };
+
+    useEffect(() => {
+      calculateIndicator();
+    }, [location.pathname]);
+
+    // for prevent rerendering
+    const renderCount = useRef(0);
+    renderCount.current = 1;
+
+    return (
+      <div
+        id={`indicator-${indicatorId}`}
+        className={cn(`line-indicator duration-500`)}
+      ></div>
+    );
+  }
+);

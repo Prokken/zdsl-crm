@@ -1,5 +1,10 @@
+import CalenderFilter from "@/components/calander/calenderFilter";
 function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <CalenderFilter />
+    </div>
+  );
 }
 
 export default Dashboard;

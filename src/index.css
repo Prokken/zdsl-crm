@@ -98,15 +98,14 @@
 }
 
 .line-indicator {
-  width: 3px;
-  background-color: hsl(var(--primary));
   position: absolute;
-  left: -2px;
-  top: 0;
+  left: 0;
+  width: 3px;
+  background-color: blue;
   height: 0;
-  transition: top 0.2s ease-in-out, height 0.2s ease-in-out;
-  border-radius: calc(var(--radius) + 2px);
-  opacity: 1;
+  top: 0;
+  opacity: 0;
+  transition: top 0.38s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 /* CollapsibleContent Animation */
