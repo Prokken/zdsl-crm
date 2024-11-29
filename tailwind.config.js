@@ -77,8 +77,8 @@ module.exports = {
       boxShadow: {
         DEFAULT: "var(--shadow)",
         xxl: "var(--shadow-xxl)",
-      }
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
 };
