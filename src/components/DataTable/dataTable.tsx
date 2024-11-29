@@ -42,9 +42,9 @@ function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="border-0  flex flex-col h-[calc(100vh-var(--nav-height))]  rounded-sm">
-      <div className={cn("flex-1   overflow-auto rounded-sm ", className)}>
-        <Table className="bg-white">
+    <div className="border-0 flex flex-col rounded-sm">
+      <div className={cn("flex-1 rounded-sm ", className)}>
+        <Table className="bg-white overflow-auto">
           <TableHeader className="sticky -top-2 bg-white z-20 duration-200">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -109,8 +109,6 @@ function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
-      <div className=" flex-0 h-[70px]">page</div>
     </div>
   );
 }
