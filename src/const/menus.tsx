@@ -8,6 +8,7 @@ import sms_automation from "/src/assets/icons/sms-automation.svg";
 import sms_campaign from "/src/assets/icons/sms-campaign.svg";
 import sms_integrations from "/src/assets/icons/sms-integrations.svg";
 import sms_template from "/src/assets/icons/sms-template.svg";
+import crm_integrations from "/src/assets/icons/crm-integrations.svg";
 
 export type MenuItemObject = {
   title: string;
@@ -54,6 +55,11 @@ export const menus: MenuItemObject[] = [
         title: "Massage Templates",
         path: "/crm/message-templates",
         icon: message_templates,
+      },
+      {
+        title: "Integrations",
+        path: "/crm/integrations",
+        icon: crm_integrations,
       },
     ],
   },
