@@ -1,4 +1,5 @@
 import Contracts from "@/pages/CRM/contracts";
+import CRMSetting from "@/pages/CRM/crm-setting";
 import Dashboard from "@/pages/CRM/dashboard";
 import Forms from "@/pages/CRM/forms";
 import Integrations from "@/pages/CRM/integrations";
@@ -38,6 +39,10 @@ export const crm: RouteObject = {
     {
       path: "message-templates",
       element: <MessageTemplates />,
+    },
+    {
+      path: "crm-settings",
+      element: <CRMSetting />,
     },
     {
       path: "integrations",
