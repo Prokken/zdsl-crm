@@ -1,8 +1,14 @@
+import { icons } from "@/const/icons";
+import { Icon } from "@/lib/ui/Icon";
+import { cn } from "@/lib/utils";
 import {
+  Column,
   ColumnDef,
   flexRender,
   Table as ReactTable,
 } from "@tanstack/react-table";
+import React, { ReactNode } from "react";
+import { Button } from "../ui/button";
 import {
   Table,
   TableBody,
@@ -13,38 +19,66 @@ import {
 } from "../ui/table";
 
 export interface DynamicTableProps<T> {
-  data: T[];
+  data?: T[];
   columns: ColumnDef<T>[];
   className?: string;
   table: ReactTable<T>;
+  isSort?: boolean;
+  isAction?: boolean;
   components?: {
-    cellRenderer?: (columnKey: string, rowData: T) => JSX.Element;
-    headerRenderer?: (columnKey: string) => JSX.Element;
+    cellRenderer?: (
+      prev: JSX.Element | ReactNode,
+      columnKey: string,
+      rowData: T
+    ) => JSX.Element | null;
+    headerRenderer?: (column: ColumnDef<T>) => JSX.Element | ReactNode;
   };
 }
 
+export interface ColumnSortProps<T extends object> {
+  children: JSX.Element | null;
+  column: Column<T, unknown>; // Use the Column type from Tanstack Table
+}
+
+const ColumnSort = <T extends object>({
+  children,
+  column,
+}: ColumnSortProps<T>) => {
+  return (
+    <Button
+      variant="ghost"
+      className="text-sm !text-start !p-0 m-0! font-primary hover:bg-transparent capitalize"
+      onClick={() => {
+        column.toggleSorting(column.getIsSorted() === "asc"); // Use the header prop correctly
+      }}
+    >
+      {children}
+      <Icon src={icons.get("filter")!} alt="filter" width={10} height={12} />
+    </Button>
+  );
+};
+
 const DynamicDataTable = <T extends object>({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   data,
   columns,
   components,
   table,
   className,
+  isSort = true,
   ...props
 }: DynamicTableProps<T>) => {
   return (
     <div
-      className={cn(
-        "overflow-auto h-full border rounded-[10px] shadow-sm",
-        className
-      )}
+      className={cn("overflow-auto border rounded-[10px] shadow-sm", className)}
       {...props}
     >
-      <Table className="bg-white  w-full  ">
+      <Table className="bg-white h-full w-full  overflow-auto ">
         <TableHeader className="sticky top-[-1px] shadow-sm bg-white z-20 transition-all duration-500">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
-                console.log("header id", header.id);
+                // console.log("header id", header.id);
 
                 return (
                   <TableHead
@@ -56,12 +90,31 @@ const DynamicDataTable = <T extends object>({
                       "sticky right-[-1px] bg-white z-20  after:content-[''] after:w-[calc(100%+1px) after:absolute after:bg-red-400 after:h-[200px] after:top-0 ]"
                     }`}
                   >
-                    {header?.isPlaceholder
-                      ? null
-                      : flexRender(
+                    {isSort &&
+                    header.id !== "action" &&
+                    header.id !== "select" ? (
+                      <ColumnSort column={header.column}>
+                        <>
+                          {!header.isPlaceholder
+                            ? components?.headerRenderer
+                              ? components.headerRenderer(header)
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )
+                            : null}
+                        </>
+                      </ColumnSort>
+                    ) : !header.isPlaceholder ? (
+                      components?.headerRenderer ? (
+                        components.headerRenderer(header)
+                      ) : (
+                        flexRender(
                           header.column.columnDef.header,
                           header.getContext()
-                        )}
+                        )
+                      )
+                    ) : null}
                   </TableHead>
                 );
               })}
@@ -79,18 +132,31 @@ const DynamicDataTable = <T extends object>({
                   {row.getVisibleCells().map((cell) => {
                     console.log(cell.column.id);
                     return (
-                      <TableCell
-                        key={cell.id}
-                        className={`border !px-3 whitespace-nowrap text-sm ${
-                          cell.column.id === "select" &&
-                          "sticky left-[-1px] bg-white z-10 duration-150  "
-                        }`}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
+                      <React.Fragment key={cell.id}>
+                        <TableCell
+                          className={`border !px-3 whitespace-nowrap text-sm ${
+                            cell.column.id === "select" &&
+                            "sticky left-[-1px] bg-white z-10 duration-150  "
+                          } ${
+                            cell.column.id === "action" &&
+                            "sticky right-[-1px] bg-white z-10 duration-150  "
+                          }`}
+                        >
+                          {components?.cellRenderer
+                            ? components.cellRenderer(
+                                flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                ) as React.ReactNode,
+                                cell.column.id,
+                                cell.row.original
+                              )
+                            : flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                        </TableCell>
+                      </React.Fragment>
                     );
                   })}
                 </TableRow>

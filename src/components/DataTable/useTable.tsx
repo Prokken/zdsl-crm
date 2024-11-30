@@ -36,6 +36,7 @@ function useTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+
     state: {
       sorting,
       columnFilters,
