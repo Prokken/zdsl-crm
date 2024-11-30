@@ -1,5 +1,5 @@
 function LeadManagers() {
-  return <div>Lead-managers</div>;
+  return <div className="bg-pink-300 h-full">Lead-managers</div>;
 }
 
 export default LeadManagers;

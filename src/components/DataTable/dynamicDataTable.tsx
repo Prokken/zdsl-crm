@@ -1,52 +1,37 @@
+import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { Table } from "lucide-react";
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from "@tanstack/react-table";
-
-import {
-  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+} from "../ui/table";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+export interface DynamicTableProps<T> {
+  data: T[];
+  columns: ColumnDef<T>[];
   className?: string;
+  components?: {
+    cellRenderer?: (columnKey: string, rowData: T) => JSX.Element;
+    headerRenderer?: (columnKey: string) => JSX.Element;
+  };
 }
 
-function DataTable<TData, TValue>({
-  columns,
+const DynamicDataTable = <T extends object>({
   data,
+  columns,
+  components,
   className,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const table = useReactTable({
-    columns,
-    data,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
-    state: {
-      sorting,
-    },
-  });
-
+  ...props
+}: DynamicTableProps<T>) => {
   return (
     <div
       className={cn(
         "overflow-auto h-full border rounded-[10px] shadow-sm",
         className
       )}
+      {...props}
     >
       <Table className="bg-white  w-full  ">
         <TableHeader className="sticky top-[-1px] shadow-sm bg-white z-20 transition-all duration-500">
@@ -114,6 +99,6 @@ function DataTable<TData, TValue>({
       </Table>
     </div>
   );
-}
+};
 
-export default DataTable;
+export default DynamicDataTable;

@@ -4,18 +4,14 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router";
 export default function Layout() {
   return (
-    <div>
-      <SidebarProvider>
-        <AppSidebar />
-        <main className="w-full  relative overflow-hidden">
-          <div className="border-b-2 border-border ">
-            <Navbar />
-          </div>
-          <div className="container pt-4 ">
-            <Outlet />
-          </div>
-        </main>
-      </SidebarProvider>
-    </div>
+    <SidebarProvider className="w-full h-screen">
+      <AppSidebar />
+      <main className="w-full h-full flex flex-col  overflow-auto ">
+        <Navbar />
+        <div className="container flex-1 overflow-auto ">
+          <Outlet />
+        </div>
+      </main>
+    </SidebarProvider>
   );
 }

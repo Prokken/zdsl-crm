@@ -7,6 +7,12 @@ import { ArrowUpDown } from "lucide-react";
 import leadManagersData from "@/assets/_moc_/lead_managers.json";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  MainBottomContent,
+  MainContent,
+  MainMiddleContent,
+  MainTopContent,
+} from "@/layout/mainContentLayout";
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -195,42 +201,48 @@ function Contracts() {
   console.log(selectedColumns.filter((column) => column.checked));
 
   return (
-    <div>
-      <Popover>
-        <PopoverTrigger>Filter</PopoverTrigger>
-        <PopoverContent className="z-50">
-          <ul className="bg-white  shadow-md ">
-            {selectedColumns?.map((field) => (
-              <li
-                key={field.accessorKey}
-                className="px-3 flex flex-col justify-center py-2"
-              >
-                <div className="flex items-center gap-2  select-none ">
-                  <Checkbox
-                    className=""
-                    id={field.accessorKey}
-                    defaultChecked={field?.checked}
-                    onCheckedChange={(isChecked: boolean) => {
-                      dispatch({
-                        type: isChecked ? "CHECKED" : "UNCHECKED",
-                        data: field,
-                      });
-                    }}
-                  />
-                  <label
-                    htmlFor={field.accessorKey}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize text-accent-foreground "
-                  >
-                    {field.header}
-                  </label>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </PopoverContent>
-      </Popover>
-      <DataTable columns={tableColumns} data={data} />
-    </div>
+    <MainContent>
+      <MainTopContent className="py-4">
+        <Popover>
+          <PopoverTrigger>Filter</PopoverTrigger>
+          <PopoverContent className="z-50">
+            <ul className="bg-white  shadow-md ">
+              {selectedColumns?.map((field) => (
+                <li
+                  key={field.accessorKey}
+                  className="px-3 flex flex-col justify-center py-2"
+                >
+                  <div className="flex items-center gap-2  select-none ">
+                    <Checkbox
+                      className=""
+                      id={field.accessorKey}
+                      defaultChecked={field?.checked}
+                      onCheckedChange={(isChecked: boolean) => {
+                        dispatch({
+                          type: isChecked ? "CHECKED" : "UNCHECKED",
+                          data: field,
+                        });
+                      }}
+                    />
+                    <label
+                      htmlFor={field.accessorKey}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize text-accent-foreground "
+                    >
+                      {field.header}
+                    </label>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </PopoverContent>
+        </Popover>
+      </MainTopContent>
+
+      <MainMiddleContent className="h-[85%] w-full rounded-sm  ">
+        <DataTable columns={tableColumns} data={data} />
+      </MainMiddleContent>
+      <MainBottomContent className="p-5">Pagination</MainBottomContent>
+    </MainContent>
   );
 }
 
