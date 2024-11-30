@@ -47,13 +47,13 @@ const ColumnSort = <T extends object>({
   return (
     <Button
       variant="ghost"
-      className="text-sm !text-start !p-0 m-0! font-primary hover:bg-transparent capitalize"
+      className="text-xs !text-start !p-0 m-0! font-primary hover:bg-transparent capitalize"
       onClick={() => {
         column.toggleSorting(column.getIsSorted() === "asc"); // Use the header prop correctly
       }}
     >
       {children}
-      <Icon src={icons.get("filter")!} alt="filter" width={10} height={12} />
+      <Icon src={icons.get("sort")!} alt="sort" width={10} height={12} />
     </Button>
   );
 };
@@ -83,7 +83,7 @@ const DynamicDataTable = <T extends object>({
                 return (
                   <TableHead
                     key={header.id}
-                    className={`border !px-3 whitespace-nowrap ${
+                    className={`border !px-2 text-start  text-foreground  whitespace-nowrap ${
                       header.id === "select" && "sticky left-[-1px] bg-white "
                     }  ${
                       header.id === "action" &&
@@ -134,7 +134,7 @@ const DynamicDataTable = <T extends object>({
                     return (
                       <React.Fragment key={cell.id}>
                         <TableCell
-                          className={`border !px-3 whitespace-nowrap text-sm ${
+                          className={`border !px-2 whitespace-nowrap text-sm ${
                             cell.column.id === "select" &&
                             "sticky left-[-1px] bg-white z-10 duration-150  "
                           } ${

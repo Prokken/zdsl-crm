@@ -1,8 +1,11 @@
 import LeadManagersData from "@/assets/_moc_/lead_managers.json";
+import Action from "@/components/actions/action";
 import DynamicDataTable from "@/components/DataTable/dynamicDataTable";
 import { readyDataForColumn } from "@/components/DataTable/readyDataForTableColumn";
 import { ColumnField } from "@/components/DataTable/tableTypes";
 import useTable from "@/components/DataTable/useTable";
+import Pagination from "@/components/pagination/pagination";
+import SecondarySearch from "@/components/search/secondarySearch";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,7 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { icons } from "@/const/icons";
 import {
-  MainBottomContent,
   MainContent,
   MainMiddleContent,
   MainTopContent,
@@ -47,17 +49,19 @@ function Leads() {
     });
 
   const data: ColumnData[] = LeadManagersData;
+
   const table = useTable({ columns: readyDataForColumn(fields), data: data });
 
   return (
     <MainContent className="h-full ">
-      <MainTopContent className="  py-4">
-        <div className="flex justify-end">
+      <MainTopContent className=" flex gap-4 w-full    py-5">
+        <div className="flex w-full justify-end gap-6 items-center">
+          <SecondarySearch />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="px-3 py-2 border-[2px] text-base rounded-sm !border-primary bg-white hover:bg-white"
+                className="px-3 py-2 hover:border-[2px] text-base rounded-sm hover:!border-primary bg-white hover:bg-white"
               >
                 <Icon src={icons.get("column")!} alt="column" />
                 Manage Column
@@ -83,6 +87,14 @@ function Leads() {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button
+            variant="outline"
+            className="px-3 py-2 hover:border-[2px] text-base rounded-sm hover:!border-primary bg-white hover:bg-white"
+          >
+            <Icon src={icons.get("filter")!} alt="column" />
+            Filter
+          </Button>
+          <Action />
         </div>
       </MainTopContent>
 
@@ -100,9 +112,11 @@ function Leads() {
             },
           }}
         />
+
+        <Pagination />
       </MainMiddleContent>
 
-      <MainBottomContent className="">pagination</MainBottomContent>
+      {/* <MainBottomContent className=""></MainBottomContent> */}
     </MainContent>
   );
 }

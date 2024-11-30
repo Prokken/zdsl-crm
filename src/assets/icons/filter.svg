@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="10" height="12.111" viewBox="0 0 10 12.111">
-  <g id="Group_12260" data-name="Group 12260" transform="translate(-1088.382 -233.889)">
-    <path id="Icon_ionic-md-arrow-dropup" data-name="Icon ionic-md-arrow-dropup" d="M9,18.5l5-5,5,5Z" transform="translate(1079.382 220.389)" fill="#063354"/>
-    <path id="Icon_ionic-md-arrow-dropup-2" data-name="Icon ionic-md-arrow-dropup" d="M9,13.5l5,5,5-5Z" transform="translate(1079.382 227.5)" fill="#063354"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_16833" data-name="Group 16833" transform="translate(-1418.646)">
+    <rect id="Rectangle_9402" data-name="Rectangle 9402" width="20" height="20" rx="5" transform="translate(1418.646)" fill="#fff"/>
+    <path id="Path_16092" data-name="Path 16092" d="M17.832,8v2.218m0,5.176v4.437m0-4.437a1.479,1.479,0,1,0-1.479-1.479A1.479,1.479,0,0,0,17.832,15.395Zm-5.176-2.958v4.437m0,0a1.479,1.479,0,1,0,1.479,1.479A1.479,1.479,0,0,0,12.655,16.874Zm0-8.874v2.218M7.479,13.176v6.655M8.958,9.479A1.479,1.479,0,1,1,7.479,8,1.479,1.479,0,0,1,8.958,9.479Z" transform="translate(1416.146 -3.5)" fill="none" stroke="#017bfe" stroke-linecap="round" stroke-width="1"/>
   </g>
 </svg>
