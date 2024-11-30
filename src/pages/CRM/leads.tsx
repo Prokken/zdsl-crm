@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { icons } from "@/const/icons";
 import {
+  MainBottomContent,
   MainContent,
   MainMiddleContent,
   MainTopContent,
@@ -53,7 +54,7 @@ function Leads() {
   const table = useTable({ columns: readyDataForColumn(fields), data: data });
 
   return (
-    <MainContent className="h-full ">
+    <MainContent className="h-full w-full">
       <MainTopContent className=" flex gap-4 w-full    py-5">
         <div className="flex w-full justify-end gap-6 items-center">
           <SecondarySearch />
@@ -98,11 +99,12 @@ function Leads() {
         </div>
       </MainTopContent>
 
-      <MainMiddleContent className="max-h-full h-fit">
+      <MainMiddleContent className="h-[calc(100vh-250px)] w-full ">
         <DynamicDataTable
           columns={fields}
           table={table}
           data={data}
+          className="h-[calc(100vh-250px)]   "
           components={{
             cellRenderer: (prev, key) => {
               if (key === "job_title") {
@@ -112,11 +114,11 @@ function Leads() {
             },
           }}
         />
-
-        <Pagination />
       </MainMiddleContent>
 
-      {/* <MainBottomContent className=""></MainBottomContent> */}
+      <MainBottomContent className="flex items-center">
+        <Pagination />
+      </MainBottomContent>
     </MainContent>
   );
 }

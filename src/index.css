@@ -30,7 +30,7 @@
     --destructive-foreground: 210 40% 98%;
     --ring: 215 20.2% 65.1%;
     /* border radius  */
-    --radius: 0.631rem;
+    --radius: 0.94rem;
     --sidebar-background: 0, 0%, 98%; /*#FBFBFB*/
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 204, 18%, 89%;
@@ -90,7 +90,7 @@
 
 @layer utilities {
   .container {
-    @apply 2xl:max-w-full 2xl:px-10 max-w-[1560px] mx-auto px-3 lg:px-0;
+    @apply 2xl:max-w-full 2xl:px-6 max-w-[1560px] mx-auto px-3;
   }
 }
 

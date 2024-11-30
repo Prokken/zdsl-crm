@@ -73,9 +73,9 @@ module.exports = {
         },
       },
       borderRadius: {
-        lg: "`var(--radius)`",
-        md: "`calc(var(--radius) - 2px)`",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 8px)",
+        sm: "calc(var(--radius) - 10px)",
       },
       fontFamily: {
         primary: "var(--font-primary)",

@@ -11,19 +11,27 @@ export const MainTopContent = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
-  return <div {...props} className={cn("", className)} />;
+  return <div {...props} className={cn("h-[var(--height-70)]", className)} />;
 };
 
 export const MainMiddleContent = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
-  return <div {...props} className={cn(" h-full  flex-1", className)} />;
+  return (
+    <div
+      {...props}
+      className={cn(
+        "h-[calc(100%-(var(--height-70)+var(--height-70)+var(--height-70)+var(--height-70)))]",
+        className
+      )}
+    />
+  );
 };
 
 export const MainBottomContent = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
-  return <div {...props} className={cn("", className)} />;
+  return <div {...props} className={cn("h-[var(--height-70)]", className)} />;
 };

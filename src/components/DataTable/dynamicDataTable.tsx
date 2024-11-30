@@ -70,11 +70,14 @@ const DynamicDataTable = <T extends object>({
 }: DynamicTableProps<T>) => {
   return (
     <div
-      className={cn("overflow-auto border rounded-[10px] shadow-sm", className)}
+      className={cn(
+        "border flex-1 overflow-auto  rounded-[10px] shadow-sm flex ",
+        className
+      )}
       {...props}
     >
-      <Table className="bg-white h-full w-full  overflow-auto ">
-        <TableHeader className="sticky top-[-1px] shadow-sm bg-white z-20 transition-all duration-500">
+      <Table className="bg-white h-full  flex-1 flex-grow w-full">
+        <TableHeader className="sticky top-[-1px]  shadow-sm bg-white z-20 transition-all duration-500">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -83,8 +86,8 @@ const DynamicDataTable = <T extends object>({
                 return (
                   <TableHead
                     key={header.id}
-                    className={`border !px-2 text-start  text-foreground  whitespace-nowrap ${
-                      header.id === "select" && "sticky left-[-1px] bg-white "
+                    className={`border !px-[10px] text-start   text-foreground whitespace-nowrap ${
+                      header.id === "select" && "sticky left-[-1px] bg-white  "
                     }  ${
                       header.id === "action" &&
                       "sticky right-[-1px] bg-white z-20  after:content-[''] after:w-[calc(100%+1px) after:absolute after:bg-red-400 after:h-[200px] after:top-0 ]"
@@ -134,9 +137,9 @@ const DynamicDataTable = <T extends object>({
                     return (
                       <React.Fragment key={cell.id}>
                         <TableCell
-                          className={`border !px-2 whitespace-nowrap text-sm ${
+                          className={`border !px-[10px]  whitespace-nowrap  text-sm ${
                             cell.column.id === "select" &&
-                            "sticky left-[-1px] bg-white z-10 duration-150  "
+                            "sticky left-[-1px] bg-white z-10 duration-150 !w-10 "
                           } ${
                             cell.column.id === "action" &&
                             "sticky right-[-1px] bg-white z-10 duration-150  "

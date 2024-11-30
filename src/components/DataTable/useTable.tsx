@@ -1,8 +1,8 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   Table,
@@ -19,9 +19,9 @@ function useTable<TData, TValue>({
   data: TData[];
 }): Table<TData> {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  //   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-  //     []
-  //   );
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
@@ -29,16 +29,21 @@ function useTable<TData, TValue>({
     data,
     columns,
     onSortingChange: setSorting,
-    // onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
-      //   columnFilters,
+      columnFilters,
       columnVisibility,
+    },
+    initialState: {
+      pagination: {
+        pageSize: 50,
+      },
     },
   });
 }

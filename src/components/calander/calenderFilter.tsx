@@ -37,24 +37,28 @@ const predefinedRanges = {
   },
 };
 
-function CalenderFilter({ className }: React.HTMLAttributes<HTMLDivElement>) {
+function CalenderFilter({
+  className,
+  getDate,
+  cancelHandler,
+}: {
+  getDate: React.Dispatch<React.SetStateAction<DateRange | null>>;
+  cancelHandler: () => void;
+  className?: string;
+}) {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(),
     to: addDays(new Date(2022, 0, 20), 680),
   });
   const [customRange, setCustomRange] = React.useState<string>("Last 30 Days");
 
-  const applyRange = () => {
-    setDate(predefinedRanges[customRange]);
+  const applyDateHandler = () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    getDate({ from: date?.from!, to: date?.to! });
   };
 
   return (
-    <div
-      className={cn(
-        "flex gap-6 border-[1px] rounded-sm  bg-white w-fit ",
-        className
-      )}
-    >
+    <div className={cn("flex gap-6  bg-white w-fit ", className)}>
       <div className="w-full border-r-[1px] pt-7 pl-8 pr-4">
         <Button className="p-0  m-0 bg-transparent text-sm">
           Customized{" "}
@@ -97,6 +101,7 @@ function CalenderFilter({ className }: React.HTMLAttributes<HTMLDivElement>) {
           <Button
             variant={"outline"}
             className="shadow-none rounded-sm text-sm"
+            onClick={cancelHandler}
           >
             Cancel
           </Button>
@@ -112,6 +117,7 @@ function CalenderFilter({ className }: React.HTMLAttributes<HTMLDivElement>) {
             </Button>
             <Button
               variant={"default"}
+              onClick={applyDateHandler}
               className="px-5 py-3 rounded-sm text-white text-sm hover:bg-primary-hover-background "
             >
               Apply
