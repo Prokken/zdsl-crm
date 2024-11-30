@@ -7,15 +7,14 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-   screens: {
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1560px',
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1560px",
     },
     extend: {
-      
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -85,9 +84,8 @@ module.exports = {
       boxShadow: {
         DEFAULT: "var(--shadow)",
         xxl: "var(--shadow-xxl)",
-      }
-
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
 };

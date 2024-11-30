@@ -1,6 +1,10 @@
-import { ColumnDef, flexRender } from "@tanstack/react-table";
-import { Table } from "lucide-react";
 import {
+  ColumnDef,
+  flexRender,
+  Table as ReactTable,
+} from "@tanstack/react-table";
+import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -12,6 +16,7 @@ export interface DynamicTableProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
   className?: string;
+  table: ReactTable<T>;
   components?: {
     cellRenderer?: (columnKey: string, rowData: T) => JSX.Element;
     headerRenderer?: (columnKey: string) => JSX.Element;
@@ -22,6 +27,7 @@ const DynamicDataTable = <T extends object>({
   data,
   columns,
   components,
+  table,
   className,
   ...props
 }: DynamicTableProps<T>) => {

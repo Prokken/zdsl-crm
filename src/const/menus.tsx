@@ -6,8 +6,12 @@ import leads from "/src/assets/icons/leads.svg";
 import message_templates from "/src/assets/icons/message-template.svg";
 import sms_automation from "/src/assets/icons/sms-automation.svg";
 import sms_campaign from "/src/assets/icons/sms-campaign.svg";
-import sms_integrations from "/src/assets/icons/sms-integrations.svg";
+import crm_settings from "/src/assets/icons/crm-settings.svg";
 import sms_template from "/src/assets/icons/sms-template.svg";
+import crm_integrations from "/src/assets/icons/crm-integrations.svg";
+import integrations from "/src/assets/icons/integrations.svg";
+import user_role from "/src/assets/icons/user-role.svg";
+import members from "/src/assets/icons/members.svg";
 
 export type MenuItemObject = {
   title: string;
@@ -55,6 +59,16 @@ export const menus: MenuItemObject[] = [
         path: "/crm/message-templates",
         icon: message_templates,
       },
+      {
+        title: "CRM Settings",
+        path: "/crm/crm-settings",
+        icon: crm_settings,
+      },
+      {
+        title: "Integrations",
+        path: "/crm/integrations",
+        icon: crm_integrations,
+      },
     ],
   },
   {
@@ -86,7 +100,53 @@ export const menus: MenuItemObject[] = [
       {
         title: "Integrations",
         path: "/sms/integrations",
-        icon: sms_integrations,
+        icon: integrations,
+      },
+    ],
+  },
+  {
+    title: "Appointments",
+    path: "/appointments",
+    icon: null,
+    isRoot: true,
+    children: [
+      {
+        title: "Dashboard",
+        path: "/appointments/dashboard",
+        icon: dashboard,
+      },
+      {
+        title: "Bookings",
+        path: "/appointments/bookings",
+        icon: sms_campaign,
+      },
+      {
+        title: "Pages",
+        path: "/appointments/pages",
+        icon: sms_automation,
+      },
+      {
+        title: "Integrations",
+        path: "/appointments/integrations",
+        icon: integrations,
+      },
+    ],
+  },
+  {
+    title: "Team Members",
+    path: "/team",
+    icon: null,
+    isRoot: true,
+    children: [
+      {
+        title: "Members",
+        path: "/team/members",
+        icon: members,
+      },
+      {
+        title: "User Role",
+        path: "/team/user-role",
+        icon: user_role,
       },
     ],
   },

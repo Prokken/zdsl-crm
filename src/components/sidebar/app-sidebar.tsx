@@ -27,7 +27,7 @@ export function AppSidebar() {
       <SidebarHeader className="!mx-0 mb-[1.5rem] !px-0 !p-0">
         <Logo />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="scrollbar-hide">
         <SidebarTreeMenusView menus={menus} />
       </SidebarContent>
     </Sidebar>
@@ -99,7 +99,7 @@ export const SidebarTreeMenusView = ({
     );
   };
   return (
-    <SidebarMenu className="sidebar-menu  py-[0.875px]">
+    <SidebarMenu className="sidebar-menu py-[0.875px] whitespace-nowrap">
       {renderMenuItems(menus)}
     </SidebarMenu>
   );
